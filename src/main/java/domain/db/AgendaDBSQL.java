@@ -14,7 +14,6 @@ public class AgendaDBSQL implements AgendaDB {
     public AgendaDBSQL() {
         this.connection = DbConnectionService.getDbConnection();
         this.schema = DbConnectionService.getSchema();
-        System.out.println(this.schema);
     }
 
     public void addAppointment(Appointment appointment) {
@@ -49,7 +48,6 @@ public class AgendaDBSQL implements AgendaDB {
     }
 
     public List<Appointment> getAllAppointments() {
-
         List<Appointment> agenda = new ArrayList<Appointment>();
         String sql = String.format("SELECT * FROM %s.agenda ORDER BY date", this.schema);
         try {
@@ -70,11 +68,11 @@ public class AgendaDBSQL implements AgendaDB {
     @Override
     public List<Appointment> getAllAppointmentsFromUntil(Timestamp from, Timestamp until) {
         List<Appointment> agenda = new ArrayList<Appointment>();
-        String sql = String.format("SELECT * FROM %s.agenda WHERE date > ? AND date < ? ", this.schema);
+        String sql = String.format("SELECT * FROM %s.agenda WHERE date > ? AND date < ? ORDER BY date", this.schema);
         try {
             PreparedStatement statementSql = getConnection().prepareStatement(sql);
-            statementSql.setTimestamp(1,from);
-            statementSql.setTimestamp(2,until);
+            statementSql.setTimestamp(1, from);
+            statementSql.setTimestamp(2, until);
             ResultSet result = statementSql.executeQuery();
             while (result.next()) {
                 int id = result.getInt("id");
@@ -95,7 +93,9 @@ public class AgendaDBSQL implements AgendaDB {
             PreparedStatement statementSql = getConnection().prepareStatement(sql);
             statementSql.setInt(1, id);
             ResultSet result = statementSql.executeQuery();
-            result.next();
+            if (!result.next())
+                return null;
+            // result.next() is done in line 96
             String name = result.getString("name");
             Timestamp timestamp = result.getTimestamp("date");
             return new Appointment(id, name, timestamp);

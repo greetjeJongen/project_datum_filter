@@ -47,22 +47,23 @@ public class Appointment {
         this.name = name;
     }
 
-    public LocalDate getLocalDate() {
-        return this.date.toLocalDateTime().toLocalDate();
-    }
-
-    public LocalTime getLocalTime() {
-        return this.date.toLocalDateTime().toLocalTime();
-    }
-
+    /**
+     * Formate datum to string (YYYY-MM-DD)
+     */
     public String getLocalDateAsString() {
         return MyTimeStamp.formatDate(getDate());
     }
 
+    /**
+     * Format time as string (HH:MM)
+     */
     public String getLocalTimeAsString() {
         return MyTimeStamp.formatTime(getDate());
     }
 
+    /**
+     * Format timestamp as string (YYYY-MM-DD HH:MM)
+     */
     public String getDateAsString() {
         return MyTimeStamp.formatTimeStamp(getDate());
     }

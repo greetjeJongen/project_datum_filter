@@ -9,8 +9,6 @@ import ui.controller.RequestHandler;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +51,7 @@ public class Add extends RequestHandler {
         }
         try {
             MyTimeStamp.chekValidDate(date);
-            request.setAttribute("previousTime",time);
+            request.setAttribute("previousTime", time);
         } catch (DomainException e) {
             errors.add(e.getMessage());
         }

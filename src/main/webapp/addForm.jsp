@@ -20,9 +20,9 @@
 </c:if>
 <form action="Controller?command=Add" method="post" novalidate>
     <p><label for="name">Name: </label><input type="text" id="name" name="name" value="${previousName}"></p>
-    <p><label for="date">Date (yyyy-mm-dd): </label><input type="date" id="date" name="date" value="${previousDate}">
+    <p><label for="date">Date${dateFormat}: </label><input type="date" id="date" name="date" value="${previousDate}">
     </p>
-    <p><label for="time">Time (hh:mm): </label><input type="time" id="time" name="time" value="${previousTime}"></p>
+    <p><label for="time">Time${timeFormat}: </label><input type="time" id="time" name="time" value="${previousTime}"></p>
     <p><input type="submit" value="Add Appointment"></p>
 </form>
 </body>

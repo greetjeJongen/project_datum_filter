@@ -11,6 +11,7 @@
 <jsp:include page="header.jsp"/>
 
 <c:choose>
+    <%--@elvariable id="appointment" type=""--%>
     <c:when test="${appointment != null}">
         <p>Are you sure you want to delete ${appointment.name} with id ${appointment.id}?</p>
         <form action="Controller?command=Delete&id=${appointment.id}" method="post">

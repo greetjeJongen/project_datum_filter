@@ -1,6 +1,7 @@
 package domain.model;
 
 import java.sql.Timestamp;
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -17,32 +18,43 @@ public class MyTimeStamp {
      * @return formatted timestamp as DD-MM-YYYY hh:mm
      */
     public static String formatTimeStamp(Timestamp timestamp) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm");
-        LocalDateTime localDateTime = timestamp.toLocalDateTime();
-        return localDateTime.format(formatter);
+        return format(timestamp, "dd-MM-yyyy hh:mm");
     }
 
     /**
      * Formats the date of the given timestamp to string
+     *
      * @param timestamp
      * @return date formatted as dd-MM-yyyy
      */
     public static String formatDate(Timestamp timestamp) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        LocalDateTime localDateTime = timestamp.toLocalDateTime();
-        return localDateTime.format(formatter);
-
+        return format(timestamp, "dd-MM-yyyy");
     }
 
     /**
      * Formats the time of the given timestamp to string
+     *
      * @param timestamp
      * @return time formatted as hh:mm
      */
     public static String formatTime(Timestamp timestamp) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm");
-        LocalDateTime localDateTime = timestamp.toLocalDateTime();
-        return localDateTime.format(formatter);
+        return format(timestamp, "hh:mm");
+    }
+
+    /**
+     * Formats the time of the given timestamp to string according to given pattern
+     * @throws DomainException when given pattern is invalid
+     */
+    private static String format(Timestamp timestamp, String pattern) {
+        if (pattern == null)
+            throw new DomainException("Invalid time pattern");
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+            LocalDateTime localDateTime = timestamp.toLocalDateTime();
+            return localDateTime.format(formatter);
+        } catch (IllegalArgumentException | DateTimeException e) {
+            throw new DomainException("Invalid time pattern");
+        }
     }
 
 
@@ -63,8 +75,7 @@ public class MyTimeStamp {
     public static void checkValidTime(String time) {
         try {
             LocalTime localTime = LocalTime.parse(time);
-        }
-        catch (DateTimeParseException e) {
+        } catch (DateTimeParseException e) {
             throw new DomainException("Time has incorrect format. It should be hh:mm");
         }
     }
@@ -72,8 +83,7 @@ public class MyTimeStamp {
     public static void chekValidDate(String date) {
         try {
             LocalDate localDate = LocalDate.parse(date);
-        }
-        catch (DateTimeParseException e) {
+        } catch (DateTimeParseException e) {
             throw new DomainException("Date has incorrect format. It should be yyyy-mm-dd");
         }
     }

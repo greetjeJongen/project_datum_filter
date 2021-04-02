@@ -37,6 +37,13 @@ public class Controller extends HttpServlet {
             RequestHandler handler = handlerFactory.getHandler(command, service);
             destination = handler.handleRequest(request, response);
         }
+        // Only Chrome and Firefox dosupport input type="date" and "time",
+        // so format for input fields must be communicated to other borwsers
+        // usage: addForm.jsp and agenda.jsp
+        if (!request.getHeader("user-agent").toLowerCase().contains("chrome") && !request.getHeader("user-agent").toLowerCase().contains("firefox")) {
+            request.setAttribute("dateFormat", " (yyyy-mm-dd)");
+            request.setAttribute("timeFormat", " (hh:mm)");
+        }
         if (!response.isCommitted()) {
             request.getRequestDispatcher(destination).forward(request, response);
         }

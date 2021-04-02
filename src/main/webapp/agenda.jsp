@@ -12,8 +12,8 @@
 <jsp:include page="header.jsp"/>
 
 <form action="Controller" method="get">
-    <p><label for="from">From</label><input id="from" type="date" name="from"></p>
-    <p><label for="until">Until</label><input id="until" type="date" name="until"></p>
+    <p><label for="from">From${dateFormat}</label><input id="from" type="date" name="from"></p>
+    <p><label for="until">Until${dateFormat}</label><input id="until" type="date" name="until"></p>
     <input type="hidden" name="command" value="Filter">
     <p><label><input type="radio" name="mode" value="java" class="disableJS">Filter By Java</label></p>
     <p><label><input type="radio" name="mode" value="sql" class="disableJS">Filter By SQL</label></p>
